@@ -47,12 +47,21 @@ public class CovidServiceImpl {
 
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(covidUrlReader);
 
+        int latestCases;
+        int prevDayCases;
+
         for (CSVRecord record : records) {
             LocStats locationStat = new LocStats();
             locationStat.setState(record.get(0));
             locationStat.setCountry(record.get(1));
-            int latestCases = Integer.parseInt(record.get(record.size() - 1));
-            int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
+
+            if(record.get(record.size() - 1).equals("")) {
+                latestCases = 0;
+                prevDayCases = 0;
+            }else {
+                latestCases = Integer.parseInt(record.get(record.size() - 1));
+                prevDayCases = Integer.parseInt(record.get(record.size() - 2));
+            }
             locationStat.setLatestTotalCases(latestCases);
             locationStat.setDiffFromPrevDay(latestCases - prevDayCases);
             newStats.add(locationStat);
