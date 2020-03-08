@@ -21,6 +21,9 @@
         <p>
             <span>New cases reported since previous day:</span>
             <span th:text="${totalLatestCases}"></span>
+            <span> which is a </span>
+            <span th:text="${#numbers.formatDecimal(percentChange,1,2)}"></span>
+            <span>% change from last day's figure... </span>
         </p>
 
     </div>
